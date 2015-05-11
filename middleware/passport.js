@@ -12,7 +12,7 @@ module.exports = (app) => {
     failureFlash: true
   }, nodeifyit(async (username, password) => {
     let user
-    if(username.indexOf('@')){
+    if(username.indexOf('@') != -1){
       let email = username.toLowerCase()
       user = await User.promise.findOne({email})
       await User.populate(user, 'posts.title', (err, result) => {
@@ -22,13 +22,13 @@ module.exports = (app) => {
 
       console.log('User after population: ' + user)
     } else {
-      let regExp = new RegExp(username, '1')
+      username = (username || '').toLowerCase()
       user = await User.promise.findOne({
-        username: {$regex: regExp}
+        username: username
       })
     }
     let dbUserName = user.username
-    if(username.indexOf('@')){
+    if(username.indexOf('@') != -1){
       dbUserName = user.email
     }
     if (!user || username !== dbUserName) {
@@ -59,6 +59,7 @@ module.exports = (app) => {
       }
 
       let {username, title, description} = req.body
+      username = (username || '').toLowerCase()
       //let regExp = new RegExp(username, '1')
       //let query = {username: {$regex: regExp}}
       let query = {username}

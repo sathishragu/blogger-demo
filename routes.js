@@ -107,7 +107,7 @@ module.exports = (app) => {
       usercomment.created = Date.now()
       post.comments.push(usercomment)
       await post.save()
-      res.redirect('/post/'+encodeURI(postId))
+      res.redirect('/blog/'+encodeURI(req.user.blogTitle))
     }))
 
   app.post('/post/:postId?', then(async (req, res) => {
