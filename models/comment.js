@@ -9,6 +9,10 @@ let commentSchema = mongoose.Schema({
   comment: {
     type: String,
     required: true
+  },
+  postid: {
+    type: String,
+    required: true
   }
 })
 

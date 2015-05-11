@@ -38,9 +38,13 @@
 
                     </div>
                     <br>
+                    <strong>COMMENTS</strong><br><br>
+                    <% for(var j=0; j < blogPosts[i].comment.length; j++) { %>
+                        <%= blogPosts[i].comment[j] %><br><br>
+                    <% } %>
                     <form action="/comment/<%= blogPosts[i].id %>" method="post">
                         <div class="form-group">
-                            <label>Comment</label>
+                            <label>Enter new comment</label>
                             <input type="text" class="form-control" name="comment" value="">
                         </div>
                         <button type="submit" class="btn btn-warning btn-lg">Comment</button>

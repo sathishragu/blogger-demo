@@ -50,6 +50,7 @@ module.exports = (app) => {
     let blogId = req.params.blogId
     if(!blogId) res.send('404', 'Not Found')
     let posts = await Post.promise.find()
+    let allDbComments = await Comment.promise.find()
     console.log(blogId)
     // populate the user data to be populated in the profile page
     posts = await Post.promise.populate(posts, {
@@ -57,9 +58,18 @@ module.exports = (app) => {
       match: { blogid: blogId},
     })
     console.log(posts)
-    let blogPost = {}
+    
     let blogPosts = []
     for (let i = 0; i < posts.length; i++) {
+      let comments = []
+      let blogPost = {}
+      let thisPostComments = await Comment.promise.populate(allDbComments,{
+        path: 'comments',
+      match: { postid: posts[i].id},
+      })
+      for (let j = 0; j < thisPostComments.length; j++) {
+          comments.push(thisPostComments[j].comment)
+      }
       let dataUri = new DataUri
       let image = dataUri.format('.'+posts[i].image.contentType.split('/').pop(), posts[i].image.data)
       blogPost.id = posts[i].id
@@ -67,6 +77,7 @@ module.exports = (app) => {
       blogPost.content = posts[i].content
       blogPost.updated = posts[i].updated
       blogPost.image = `data:${posts[i].image.contentType};base64,${image.base64}`
+      blogPost.comment = comments
       blogPosts.push(blogPost)
     }
     console.log(blogPosts)
@@ -100,6 +111,7 @@ module.exports = (app) => {
       if(!post) res.send('404', 'Not Found')
       let usercomment = new Comment()
       usercomment.comment = enteredcomment
+      usercomment.postid = postId
       post.comments.push(usercomment)
       await usercomment.save()
       await post.save()
