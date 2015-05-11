@@ -6,7 +6,7 @@ let nodeify = require('bluebird-nodeify')
 
 let Post = require('./models/post')
 let User = require('./models/user')
-let Comment = require('./models/comment')
+//let Comment = require('./models/comment')
 let isLoggedIn = require('./middleware/isLoggedIn')
 
 module.exports = (app) => {
@@ -50,26 +50,17 @@ module.exports = (app) => {
     let blogId = req.params.blogId
     if(!blogId) res.send('404', 'Not Found')
     let posts = await Post.promise.find()
-    let allDbComments = await Comment.promise.find()
     console.log(blogId)
     // populate the user data to be populated in the profile page
     posts = await Post.promise.populate(posts, {
       path: 'posts',
       match: { blogid: blogId},
     })
-    console.log(posts)
     
     let blogPosts = []
     for (let i = 0; i < posts.length; i++) {
       let comments = []
       let blogPost = {}
-      let thisPostComments = await Comment.promise.populate(allDbComments,{
-        path: 'comments',
-      match: { postid: posts[i].id},
-      })
-      for (let j = 0; j < thisPostComments.length; j++) {
-          comments.push(thisPostComments[j].comment)
-      }
       let dataUri = new DataUri
       let image = dataUri.format('.'+posts[i].image.contentType.split('/').pop(), posts[i].image.data)
       blogPost.id = posts[i].id
@@ -77,10 +68,11 @@ module.exports = (app) => {
       blogPost.content = posts[i].content
       blogPost.updated = posts[i].updated
       blogPost.image = `data:${posts[i].image.contentType};base64,${image.base64}`
-      blogPost.comment = comments
+      blogPost.comments = []
+      blogPost.comments = (posts[i].comments).slice()
       blogPosts.push(blogPost)
     }
-    console.log(blogPosts)
+    //console.log(blogPosts)
     res.render('blog.ejs', {
         blogPosts: blogPosts,
         verb: 'View'
@@ -101,6 +93,7 @@ module.exports = (app) => {
   }))
 
   app.post('/comment/:postId?', then(async (req, res) => {
+      let usercomment = {}
       let postId = req.params.postId
       console.log('POSTID '+postId)
       console.log('POSTID '+req.body.comment)
@@ -109,11 +102,10 @@ module.exports = (app) => {
       console.log('COMMENT STRING: '+enteredcomment)
       let post = await Post.promise.findById(postId)
       if(!post) res.send('404', 'Not Found')
-      let usercomment = new Comment()
       usercomment.comment = enteredcomment
-      usercomment.postid = postId
+      usercomment.creator = req.user.username
+      usercomment.created = Date.now()
       post.comments.push(usercomment)
-      await usercomment.save()
       await post.save()
       res.redirect('/post/'+encodeURI(postId))
     }))

@@ -37,8 +37,9 @@ let PostSchema = mongoose.Schema({
     required: true
   },
   comments: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Comment'
+    comment: String,
+    created: Date,
+    creator: String
   }]
 })
 
