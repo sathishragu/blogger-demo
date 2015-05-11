@@ -6,6 +6,7 @@ let nodeify = require('bluebird-nodeify')
 
 let Post = require('./models/post')
 let User = require('./models/user')
+let Comment = require('./models/comment')
 let isLoggedIn = require('./middleware/isLoggedIn')
 
 module.exports = (app) => {
@@ -87,6 +88,23 @@ module.exports = (app) => {
     failureRedirect: '/signup',
     failureFlash: true
   }))
+
+  app.post('/comment/:postId?', then(async (req, res) => {
+      let postId = req.params.postId
+      console.log('POSTID '+postId)
+      console.log('POSTID '+req.body.comment)
+      let enteredcomment = req.body.comment
+      console.log('INSIDE COMMENT')
+      console.log('COMMENT STRING: '+enteredcomment)
+      let post = await Post.promise.findById(postId)
+      if(!post) res.send('404', 'Not Found')
+      let usercomment = new Comment()
+      usercomment.comment = enteredcomment
+      post.comments.push(usercomment)
+      await usercomment.save()
+      await post.save()
+      res.redirect('/post/'+encodeURI(postId))
+    }))
 
   app.post('/post/:postId?', then(async (req, res) => {
       let postId = req.params.postId

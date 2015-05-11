@@ -38,11 +38,12 @@
 
                     </div>
                     <br>
-                    <form action="/comment/<%= blogPosts[i].id %>" method="post" enctype="multipart/form-data">
+                    <form action="/comment/<%= blogPosts[i].id %>" method="post">
                         <div class="form-group">
                             <label>Comment</label>
                             <input type="text" class="form-control" name="comment" value="">
                         </div>
+                        <button type="submit" class="btn btn-warning btn-lg">Comment</button>
                     </form>
                 </p>
             </div>

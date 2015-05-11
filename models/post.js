@@ -35,7 +35,11 @@ let PostSchema = mongoose.Schema({
   blogid: {
     type: String,
     required: true
-  }
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 })
 
 PostSchema.pre('remove', function(callback){
