@@ -29,7 +29,8 @@ module.exports = (app) => {
       if(!postId){
         res.render('post.ejs', {
           post: {},
-          verb: 'Create'
+          verb: 'Create',
+          isLoggedIn: req.isAuthenticated()
         })
         return
       }
