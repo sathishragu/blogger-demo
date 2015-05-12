@@ -41,7 +41,8 @@ module.exports = (app) => {
       res.render('post.ejs', {
           post: post,
           verb: 'Edit',
-          image: `data:${post.image.contentType};base64,${image.base64}`
+          image: `data:${post.image.contentType};base64,${image.base64}`,
+          isLoggedIn: req.isAuthenticated()
       })
       return
     }))
@@ -72,10 +73,10 @@ module.exports = (app) => {
       blogPost.comments = (posts[i].comments).slice()
       blogPosts.push(blogPost)
     }
-    //console.log(blogPosts)
     res.render('blog.ejs', {
         blogPosts: blogPosts,
-        verb: 'View'
+        verb: 'View',
+        isLoggedIn: req.isAuthenticated()
     })
     return
   }))

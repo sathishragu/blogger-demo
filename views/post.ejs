@@ -34,8 +34,9 @@
               <% } %>
             <input type="file" class="form-control" name="image">
         </div>
-        
+        <% if(isLoggedIn) {%>
         <button type="submit" class="btn btn-warning btn-lg"><%= verb %> Post</button>
+        <% } %>
     </form>
 
 </div>

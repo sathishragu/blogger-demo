@@ -4,7 +4,6 @@
     <title>Blogger</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <! -- <link rel="stylesheet" href="http://demo.themexpose.com/style.css"> -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
     <style>
         body         { padding-top:80px; word-wrap:break-word; }
@@ -44,6 +43,7 @@
                     <% for(var j=0; j < blogPosts[i].comments.length; j++) { %>
                         <%= blogPosts[i].comments[j].comment %><br><br>
                     <% } %>
+                    <% if(isLoggedIn) {%>
                     <form action="/comment/<%= blogPosts[i].id %>" method="post">
                         <div class="form-group">
                             <label>Enter new comment</label>
@@ -51,6 +51,9 @@
                         </div>
                         <button type="submit" class="btn btn-warning btn-lg">Comment</button>
                     </form>
+                    <% } else {%>
+                        <strong>Please <a href="/login/">signin</a> to enter comments</strong><br><br>
+                    <% } %>
                 </p>
             </div>
         </div>

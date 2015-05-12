@@ -27,6 +27,9 @@ module.exports = (app) => {
         username: username
       })
     }
+    if (!user) {
+      return [false, {message: 'Invalid username'}]
+    }
     let dbUserName = user.username
     if(username.indexOf('@') != -1){
       dbUserName = user.email
