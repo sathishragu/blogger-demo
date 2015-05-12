@@ -24,27 +24,27 @@ Required :
  
 Optional :
 
- User can specify a vanity url for their blog
+ [NOT DONE] User can specify a vanity url for their blog
  
- User's passwords are secured additionally with a blacklist, salt and pepper
+ [NOT DONE] User's passwords are secured additionally with a blacklist, salt and pepper
  
- User can click "Remember Me" to remain logged in
+ [NOT DONE] User can click "Remember Me" to remain logged in
  
- Users can author blog posts with rich text
+ [NOT DONE] Users can author blog posts with rich text
  
- Clicking a blog tag redirects to a list of blogs and blog posts with the given tag
+ [NOT DONE] Clicking a blog tag redirects to a list of blogs and blog posts with the given tag
  
- Users can include image(s) to be displayed on their blog post
+ [NOT DONE] Users can include image(s) to be displayed on their blog post
  
- Users can specify a future release date and time to make a blog post visible
+ [NOT DONE] Users can specify a future release date and time to make a blog post visible
  
- Users can rate blog posts, and authors can view the aggregate rating
+ [NOT DONE] Users can rate blog posts, and authors can view the aggregate rating
  
- Users can upvote/downvote comments when logged in
+ [NOT DONE] Users can upvote/downvote comments when logged in
  
- Users can edit their comments
+ [NOT DONE] Users can edit their comments
  
- Public user profiles show their information, posts and comments
+ [NOT DONE] Public user profiles show their information, posts and comments
  
 
 Walkthrough :
